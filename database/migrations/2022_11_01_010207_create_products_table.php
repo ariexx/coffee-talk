@@ -11,6 +11,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('id')->primary();
             $table->string('name', 100);
             $table->unsignedBigInteger('price');
+            $table->longText('description')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
 			$table->timestamps();
             $table->softDeletes();
