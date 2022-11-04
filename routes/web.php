@@ -17,7 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/order', [\App\Http\Controllers\OrderController::class, 'index'])->name('order');
+Route::get('/order', [\App\Http\Controllers\OrderController::class, 'index']);
+Route::post('/order', [\App\Http\Controllers\OrderController::class, 'store']);
 
 Auth::routes();
 
