@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+//    return \App\Helpers\GenerateQr::create(69);
 });
 
 Route::get('/order', [\App\Http\Controllers\OrderController::class, 'index']);
