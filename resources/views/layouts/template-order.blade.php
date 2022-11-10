@@ -93,14 +93,14 @@
                 <div class="section-header">
                     <h1>Menu</h1>
                 </div>
-
+                    <livewire:order-detail/>
+                <hr/>
                 <div class="section-body">
                     <livewire:order-page/>
                 </div>
-                <hr/>
-                <livewire:order-detail/>
+
             </section>
-            <button type="submit" class="btn btn-floating"><i class="fa fa-shopping-cart"></i></button>
+            {{--            <button type="submit" class="btn btn-floating"><i class="fa fa-shopping-cart"></i></button>--}}
         </div>
         <footer class="main-footer">
             <div class="footer-left">

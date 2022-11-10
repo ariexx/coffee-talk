@@ -2,13 +2,24 @@
     <div class="card-header">
         <h4>Order Details</h4>
     </div>
-    <div class="card-body">
-        <form action="" method="POST" wire:submit.prevent="saveCustomer">
+    <form method="POST" action="" wire:submit.prevent="saveCustomer">
+        <div class="card-body">
             @csrf
             @if($successMessage)
                 <div class="alert alert-success" role="alert">
                     {{ $successMessage }}
-                    <button wire:click="$set('successMessage', null)" type="button" class="close" data-dismiss="alert"
+                    <button wire:click="$set('successMessage', null)" type="button" class="close"
+                            data-dismiss="alert"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
+            @if($errorMessage)
+                <div class="alert alert-danger" role="alert">
+                    {{ $errorMessage }}
+                    <button wire:click="$set('errorMessage', null)" type="button" class="close"
+                            data-dismiss="alert"
                             aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -48,9 +59,9 @@
                     <input type="text" class="form-control" id="total" readonly>
                 </div>
             </div>
-            <button wire:click="generateQR({{$totalPrice}})" class="btn btn-primary">Buat pesanan</button>
-        </form>
-    </div>
+            <button class="btn btn-primary">Simpan Data</button>
+        </div>
+    </form>
     @if($qrCode)
         <div style="text-align: center; margin: 10px; ">
             <img src="{{asset('storage/qr-code/' . $qrCode)}}" class="rounded img-thumbnail"

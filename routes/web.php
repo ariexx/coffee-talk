@@ -17,7 +17,7 @@ Route::get('/', function () {
     return \App\Helpers\GenerateQr::create(10000);
 });
 
-Route::get('/order', [\App\Http\Controllers\OrderController::class, 'index']);
+Route::get('/order', [\App\Http\Controllers\OrderController::class, 'index'])->name('order');
 Route::post('/order', [\App\Http\Controllers\OrderController::class, 'store']);
 
 Auth::routes();

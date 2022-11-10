@@ -7,7 +7,16 @@ use Livewire\Component;
 
 class OrderDetail extends Component
 {
-    public $email, $name, $table_number, $type, $successMessage, $data, $qrCode = null, $totalPrice;
+    public $email, $name, $table_number, $type, $successMessage, $data, $qrCode = null, $errorMessage = null;
+    public $price, $customer;
+
+//    protected $listeners = ['generateQr' => 'generateQR'];
+
+    public function mount()
+    {
+        $this->customer = session()->get('customer');
+    }
+
     public function render()
     {
         return view('livewire.order-detail');
@@ -22,6 +31,10 @@ class OrderDetail extends Component
 
     public function saveCustomer()
     {
+        if (session()->has('customer')) {
+            $this->errorMessage = 'Customer data already submitted';
+            return;
+        }
         $this->validate();
         //store detail customer to session with unique key
         session()->put('customer', [
@@ -36,9 +49,15 @@ class OrderDetail extends Component
         $this->resetForm();
     }
 
-    public function generateQR()
+    public function generateQR($price)
     {
-        $this->qrCode = GenerateQr::create(1000);
+        $this->price = $price;
+        $this->validate();
+        if ($this->price > 0) {
+            $this->qrCode = GenerateQr::create($this->price);
+        } else {
+            $this->errorMessage = 'Total harga tidak boleh kosong';
+        }
     }
 
     private function resetForm()
