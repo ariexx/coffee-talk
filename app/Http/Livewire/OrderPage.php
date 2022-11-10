@@ -6,26 +6,27 @@ use Livewire\Component;
 
 class OrderPage extends Component
 {
-    public $productId, $price, $quantity, $successMessage;
+    public $productId, $price, $quantity, $successMessage, $totalQuantity, $totalPrice;
+    protected $listeners = ['generateQrCode' => 'generateQrCode'];
     public function render()
     {
         //sum all quantity from session
-        $totalQuantity = 0;
+        $this->totalQuantity = 0;
         if (session()->has('cart')) {
             foreach (session()->get('cart') as $item) {
-                $totalQuantity += $item['quantity'];
+                $this->totalQuantity += $item['quantity'];
             }
         }
         //sum all price from session
-        $totalPrice = 0;
+        $this->totalPrice = 0;
         if (session()->has('cart')) {
             foreach (session()->get('cart') as $item) {
-                $totalPrice += $item['price'] * $item['quantity'];
+                $this->totalPrice += $item['price'] * $item['quantity'];
             }
         }
         return view('livewire.order-page', [
-            'totalQuantity' => $totalQuantity,
-            'totalPrice' => $totalPrice,
+            'totalQuantity' => $this->totalQuantity,
+            'totalPrice' => $this->totalPrice,
         ]);
     }
 
@@ -37,5 +38,8 @@ class OrderPage extends Component
             'quantity' => 1,
             'price' => 10000,
         ]);
+
+        //emit session for generate qr code
+        $this->emit('generateQrCode', session()->get('cart'));
     }
 }

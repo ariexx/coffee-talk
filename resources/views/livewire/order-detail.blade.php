@@ -8,7 +8,8 @@
             @if($successMessage)
                 <div class="alert alert-success" role="alert">
                     {{ $successMessage }}
-                    <button wire:click="$set('successMessage', null)" type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <button wire:click="$set('successMessage', null)" type="button" class="close" data-dismiss="alert"
+                            aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -47,7 +48,13 @@
                     <input type="text" class="form-control" id="total" readonly>
                 </div>
             </div>
-            <button class="btn btn-primary">Simpan Data</button>
+            <button wire:click="generateQR({{$totalPrice}})" class="btn btn-primary">Buat pesanan</button>
         </form>
     </div>
+    @if($qrCode)
+        <div style="text-align: center; margin: 10px; ">
+            <img src="{{asset('storage/qr-code/' . $qrCode)}}" class="rounded img-thumbnail"
+                 style="align-content: center" height="300" width="300" alt="qr code payment">
+        </div>
+    @endif
 </div>
