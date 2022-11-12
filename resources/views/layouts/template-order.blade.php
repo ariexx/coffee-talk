@@ -16,30 +16,17 @@
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/components.css')}}">
-    <style>
-        .btn-floating {
-            z-index: 1;
-            position: fixed;
-            width: 60px;
-            height: 60px;
-            bottom: 40px;
-            right: 40px;
-            background-color: #0C9;
-            color: #FFF;
-            border-radius: 50px;
-            text-align: center;
-            box-shadow: 2px 2px 3px #999;
-        }
-
-        .btn-floating:hover {
-            background-color: #06F;
-            color: #0a001f;
-        }
-    </style>
     @livewireStyles
+    @livewireScripts
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('vendor/livewire-alert/livewire-alert.js') }}"></script>
+
+    <x-livewire-alert::scripts />
 </head>
 
 <body class="layout-3">
+<x-livewire-alert::flash />
 <div id="app">
     <div class="main-wrapper container">
         <div class="navbar-bg"></div>
@@ -130,6 +117,6 @@
 <!-- Template JS File -->
 <script src="{{asset('assets/js/scripts.js')}}"></script>
 <script src="{{asset('assets/js/custom.js')}}"></script>
-@livewireScripts
+{{--@livewireScripts--}}
 </body>
 </html>

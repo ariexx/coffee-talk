@@ -9,13 +9,14 @@ return new class extends Migration {
 	{
 		Schema::create('orders', function (Blueprint $table) {
 			$table->unsignedBigInteger('id')->primary();
-            $table->unsignedBigInteger('user_id')->index();
+            $table->unsignedBigInteger('user_id')->index()->nullable();
             $table->string('order_number', 20)->index();
             $table->string('email', 100)->nullable();
             $table->string('name', 100);
             $table->integer('table_number')->nullable();
             $table->enum('type', ['delivery', 'takeaway', 'dinein'])->default('dinein');
             $table->enum('status', ['pending', 'confirmed', 'delivered', 'cancelled'])->default('pending');
+            $table->unsignedBigInteger('total_price')->default(0);
 			$table->timestamps();
             $table->softDeletes();
 
