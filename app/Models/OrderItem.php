@@ -11,7 +11,7 @@ class OrderItem extends Model
     use HasFactory, HasId;
 
     protected $fillable = [
-        'order_id',
+        'order_number',
         'product_id',
         'name',
         'description',

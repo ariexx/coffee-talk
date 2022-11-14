@@ -16,7 +16,7 @@ class OrderFactory extends Factory
         return [
             'id' => $this->faker->randomNumber(),
             'user_id' => User::first()->id,
-            'order_number' => $this->faker->word(),
+            'order_number' => $this->faker->randomNumber(),
             'email' => $this->faker->unique()->safeEmail(),
             'name' => $this->faker->name(),
             'table_number' => $this->faker->randomNumber(),

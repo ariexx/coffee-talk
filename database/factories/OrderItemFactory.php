@@ -10,20 +10,20 @@ use Illuminate\Support\Carbon;
 
 class OrderItemFactory extends Factory
 {
-	protected $model = OrderItem::class;
+    protected $model = OrderItem::class;
 
-	public function definition(): array
-	{
-		return [
-			'name' => $this->faker->name(),
-			'description' => $this->faker->text('50'),
-			'quantity' => $this->faker->randomNumber(),
-			'price' => $this->faker->randomNumber(),
-			'created_at' => Carbon::now(),
-			'updated_at' => Carbon::now(),
+    public function definition(): array
+    {
+        return [
+            'name' => $this->faker->name(),
+            'description' => $this->faker->text('50'),
+            'quantity' => $this->faker->randomNumber(),
+            'price' => $this->faker->randomNumber(),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
 
-			'order_id' => Order::inRandomOrder()->first()->id,
-			'product_id' => Product::inRandomOrder()->first()->id,
-		];
-	}
+            'order_number' => Order::inRandomOrder()->first()->order_number,
+            'product_id' => Product::inRandomOrder()->first()->id,
+        ];
+    }
 }

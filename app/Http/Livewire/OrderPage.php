@@ -13,9 +13,11 @@ class OrderPage extends Component
 {
     use LivewireAlert;
     public $productId, $price, $quantity, $successMessage, $totalQuantity, $totalPrice;
+
     public function mount()
     {
     }
+
     public function render()
     {
         $products = Product::all();
@@ -53,28 +55,36 @@ class OrderPage extends Component
         ]);
 
         //emit session for generate qr code
-//        $this->emit('generateQr', $this->totalPrice);
+        //        $this->emit('generateQr', $this->totalPrice);
     }
 
     public function checkout()
     {
-        //get all product from session
         $cart = session()->get('cart');
-        //get customer from session
         $customer = session()->get('customer');
-        //transform cart session to array and store to database
-        foreach($cart as $item){
-            $cart[] = [
+
+        $cart_item = [];
+        foreach ($cart as $item) {
+            $cart_item[] = [
                 'name' => $item['name'],
                 'product_id' => $item['product_id'],
                 'quantity' => $item['quantity'],
                 'price' => $item['price'],
             ];
         }
+
+        if (empty($cart)) {
+            return $this->alert('error', 'Please add product to cart first');
+        }
+
+        //prevent user to checkout without adding customer data
+        if (empty($customer)) {
+            return $this->alert('error', 'Please add customer data first');
+        }
+
         //insert to database
         $order = Order::create([
             'id' => random_int(1000000000, 9999999999),
-            'user_id' => '1',
             'order_number' => random_int(100000, 999999),
             'email' => $customer['email'],
             'name' => $customer['name'],
@@ -83,21 +93,21 @@ class OrderPage extends Component
             'status' => 'pending',
             'total_price' => $this->totalPrice,
         ]);
-        //get order_id from order
-        foreach($cart as $item){
-            $order_items = [
-                'order_id' => '3421983',
+        //loop cart_item for insert to database
+        foreach ($cart_item as $item) {
+            OrderItem::create([
+                'order_number' => $order->order_number,
                 'product_id' => $item['product_id'],
                 'name' => $item['name'],
-                'description' => random_int(100000, 999999),
+                'description' => 'description',
                 'quantity' => $item['quantity'],
                 'price' => $item['price'],
-            ];
+            ]);
         }
-        //store to order_items
-        OrderItem::create($order_items);
+
         //clear session
         session()->forget('cart');
+        session()->forget('customer');
         $this->alert('success', 'Order has been placed successfully!');
     }
 
