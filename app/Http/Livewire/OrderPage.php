@@ -2,21 +2,20 @@
 
 namespace App\Http\Livewire;
 
+use App\Helpers\GenerateQr;
+use App\Mail\SendInvoices;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Mail;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
 class OrderPage extends Component
 {
     use LivewireAlert;
-    public $productId, $price, $quantity, $successMessage, $totalQuantity, $totalPrice;
-
-    public function mount()
-    {
-    }
+    public $productId, $price, $quantity, $successMessage, $totalQuantity, $totalPrice, $qrCode = null;
 
     public function render()
     {
@@ -39,6 +38,7 @@ class OrderPage extends Component
             'totalQuantity' => $this->totalQuantity,
             'totalPrice' => $this->totalPrice,
             'products' => $products,
+            'qrCode' => session()->get('qrCode'),
         ]);
     }
 
@@ -104,6 +104,12 @@ class OrderPage extends Component
                 'price' => $item['price'],
             ]);
         }
+
+        $generatedQrCode = $this->qrCode = GenerateQr::create($this->totalPrice);
+
+        session()->put('qrCode', $generatedQrCode);
+
+        Mail::to($customer['email'])->send(new SendInvoices($cart_item, $customer, $this->totalPrice, $order->order_number, $generatedQrCode));
 
         //clear session
         session()->forget('cart');

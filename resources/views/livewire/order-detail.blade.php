@@ -63,15 +63,9 @@
                         @enderror
                     </div>
                 </div>
-                <button class="btn btn-primary">Simpan Data</button>
+                <button class="btn btn-outline-success">Simpan Data</button>
             </div>
         </form>
-        @if ($qrCode)
-            <div style="text-align: center; margin: 10px; ">
-                <img src="{{ asset('storage/qr-code/' . $qrCode) }}" class="rounded img-thumbnail"
-                    style="align-content: center" height="300" width="300" alt="qr code payment">
-            </div>
-        @endif
     </div>
 
     @if (session()->get('customer'))

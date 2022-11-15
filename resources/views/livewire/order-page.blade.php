@@ -1,19 +1,16 @@
 <div>
-    {{--    <form action="" wire:submit.prevent="addToCart" method="POST">--}}
-    <div class="alert alert-danger">
-        {{ $totalQuantity }} || {{ $totalPrice }} {{ print_r(session()->get('cart')) }}
-    </div>
     <div class="row">
         @foreach($products as $product)
-            <div class="col-4 col-sm-4 col-lg-4 col-xs-2">
+            <div class="col-lg-4 col-md-6 col-sm-6">
                 <img src="https://source.unsplash.com/random/?Coffee&width=100&height=100/"
                      class="card-img-top" alt="">
                 <div class="card card-light ">
                     <div class="card-header">
-                        <h4>{{$product['name']}} <span
-                                class="text-small text-muted">{{rupiah($product['price'])}}</span></h4>
+                        <h4>{{$product['name']}}</h4>
                     </div>
                     <div class="card-body">
+                        <span
+                            class="text-small text-muted">{{rupiah($product['price'])}}</span>
                         <p>{{$product['description']}}</p>
                         <button class="btn btn-success w-100" wire:click.prevent="addToCart({{$product['id']}})"><i
                                 class="fa fa-plus"></i> Tambah ke keranjang
@@ -23,7 +20,6 @@
             </div>
         @endforeach
     </div>
-    {{--    </form>--}}
     @if(session()->get('cart'))
         <div class="card">
             <div class="card-header">
@@ -70,7 +66,9 @@
                     @endforeach
                     <tr>
                         <td colspan="1">
-                            <button class="btn btn-success w-100" wire:click="checkout">Bayar</button>
+                            <button class="btn btn-success w-100" wire:click="checkout" wire:loading.attr="disabled">
+                                Bayar
+                            </button>
                         </td>
                     </tr>
                     </tbody>

@@ -31,7 +31,7 @@
     <div class="main-wrapper container">
         <div class="navbar-bg"></div>
         <nav class="navbar navbar-expand-lg main-navbar">
-            <a href="#" class="navbar-brand sidebar-gone-hide">Stisla</a>
+            <a href="#" class="navbar-brand sidebar-gone-hide">Coffee Talk</a>
             <a href="#" class="nav-link sidebar-gone-show" data-toggle="sidebar"><i class="fas fa-bars"></i></a>
 
         </nav>
@@ -40,35 +40,8 @@
             <div class="container">
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
-                        <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i
+                        <a href="{{route('order')}}" class="nav-link"><i
                                 class="fas fa-fire"></i><span>Dashboard</span></a>
-                        <ul class="dropdown-menu">
-                            <li class="nav-item"><a href="index-0.html" class="nav-link">General Dashboard</a></li>
-                            <li class="nav-item"><a href="index.html" class="nav-link">Ecommerce Dashboard</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item active">
-                        <a href="#" class="nav-link"><i class="far fa-heart"></i><span>Order</span></a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i
-                                class="far fa-clone"></i><span>Multiple Dropdown</span></a>
-                        <ul class="dropdown-menu">
-                            <li class="nav-item"><a href="#" class="nav-link">Not Dropdown Link</a></li>
-                            <li class="nav-item dropdown"><a href="#" class="nav-link has-dropdown">Hover Me</a>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item"><a href="#" class="nav-link">Link</a></li>
-                                    <li class="nav-item dropdown"><a href="#" class="nav-link has-dropdown">Link 2</a>
-                                        <ul class="dropdown-menu">
-                                            <li class="nav-item"><a href="#" class="nav-link">Link</a></li>
-                                            <li class="nav-item"><a href="#" class="nav-link">Link</a></li>
-                                            <li class="nav-item"><a href="#" class="nav-link">Link</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="nav-item"><a href="#" class="nav-link">Link 3</a></li>
-                                </ul>
-                            </li>
-                        </ul>
                     </li>
                 </ul>
             </div>
@@ -85,19 +58,8 @@
                 <div class="section-body">
                     <livewire:order-page/>
                 </div>
-
             </section>
-            {{--            <button type="submit" class="btn btn-floating"><i class="fa fa-shopping-cart"></i></button>--}}
         </div>
-        <footer class="main-footer">
-            <div class="footer-left">
-                Copyright &copy; 2018
-                <div class="bullet"></div>
-                Design By <a href="https://nauval.in/">Muhamad Nauval Azhar</a>
-            </div>
-            <div class="footer-right">
-            </div>
-        </footer>
     </div>
 </div>
 
