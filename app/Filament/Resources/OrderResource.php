@@ -5,14 +5,14 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\RelationManagers;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Product;
+use BaconQrCode\Renderer\Path\Close;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class OrderResource extends Resource
 {
@@ -28,8 +28,10 @@ class OrderResource extends Resource
                     ->default(auth()->user()->id),
                 Forms\Components\TextInput::make('order_number')
                     ->required()
+                    ->disabled('true')
                     ->autofocus()
                     ->placeholder('Enter a order number...')
+                    ->default(fn() => time())
                     ->rules('max:255'),
                 Forms\Components\TextInput::make('email')
                     ->placeholder('Enter a email...')
@@ -55,11 +57,44 @@ class OrderResource extends Resource
                     ->rules(['in:pending,confirmed,delivered,cancelled'])
                     ->default('pending')
                     ->columnSpan(2),
-                Forms\Components\TextInput::make('total_price')
-                    ->placeholder('Enter a total price...')
-                    ->required()
-                    ->numeric()
-                    ->rules('numeric')->disabledOn('update'),
+                Forms\Components\Repeater::make('orderItems')
+                    ->relationship()
+                    ->schema([
+                        Forms\Components\Select::make('name')
+                            ->placeholder('Select a product...')
+                            ->reactive()
+                            ->options(Product::all()->pluck('name',  'name'))
+                            ->afterStateUpdated(function ($state, callable $set) {
+                                $product = Product::where('name', $state)->first();
+                                if ($product) {
+                                    $set('price', $product->price);
+                                    $set('product_id', $product->id);
+                                }
+                                session()->put('edit_price_product', $product->price);
+                            })
+                            ->required()
+                            ->rules('string'),
+                        Forms\Components\TextInput::make('quantity')
+                            ->placeholder('Enter a quantity...')
+                            ->required()
+                            ->reactive()
+                            ->afterStateUpdated(function ($state, \Closure $set) {
+                                $productPrice = $state * session()->get('edit_price_product');
+                                cache()->put('total_price_order', $productPrice);
+                                $set('total_price', $productPrice);
+                                $set('price', $productPrice);
+                            })
+                            ->numeric()
+                            ->rules('numeric'),
+                        Forms\Components\TextInput::make('price')
+                            ->dehydrated()
+                            ->disabled()
+                            ->rules(['numeric', 'required']),
+                        Forms\Components\Hidden::make('product_id')
+                            ->dehydrated()
+                            ->rules(['numeric', 'required']),
+                    ])
+                    ->columnSpan(2),
             ]);
     }
 
@@ -82,7 +117,9 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('status')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('total_price')
+                Tables\Columns\TextColumn::make(uniqid())
+                    ->label('Total Price')
+                    ->default(fn($record) => $record->orderItems()->sum('price'))
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TagsColumn::make('orderItems.name')
