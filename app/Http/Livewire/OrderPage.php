@@ -7,7 +7,6 @@ use App\Mail\SendInvoices;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Mail;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
@@ -15,7 +14,27 @@ use Livewire\Component;
 class OrderPage extends Component
 {
     use LivewireAlert;
+
     public $productId, $price, $quantity, $successMessage, $totalQuantity, $totalPrice, $qrCode = null;
+
+    /**
+     * @return mixed
+     */
+    /**
+     * @param mixed $totalPrice
+     */
+    public function setTotalPrice($totalPrice): void
+    {
+        $this->totalPrice = $totalPrice;
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function getTotalPrice(): mixed
+    {
+        return $this->totalPrice; //for unique identifier
+    }
 
     public function render()
     {
@@ -28,15 +47,15 @@ class OrderPage extends Component
             }
         }
         //sum all price from session
-        $this->totalPrice = 0;
+        $this->setTotalPrice(0);
         if (session()->has('cart')) {
             foreach (session()->get('cart') as $item) {
-                $this->totalPrice += $item['price'] * $item['quantity'];
+                $this->setTotalPrice($this->getTotalPrice() + $item['price'] * $item['quantity']);
             }
         }
         return view('livewire.order-page', [
             'totalQuantity' => $this->totalQuantity,
-            'totalPrice' => $this->totalPrice,
+            'totalPrice' => $this->getTotalPrice(),
             'products' => $products,
             'qrCode' => session()->get('qrCode'),
         ]);
@@ -91,7 +110,7 @@ class OrderPage extends Component
             'table_number' => $customer['table_number'],
             'type' => $customer['type'],
             'status' => 'pending',
-            'total_price' => $this->totalPrice,
+            'total_price' => $this->getTotalPrice(),
         ]);
         //loop cart_item for insert to database
         foreach ($cart_item as $item) {
@@ -105,11 +124,11 @@ class OrderPage extends Component
             ]);
         }
 
-        $generatedQrCode = $this->qrCode = GenerateQr::create($this->totalPrice);
+        $generatedQrCode = $this->qrCode = GenerateQr::create($this->getTotalPrice());
 
         session()->put('qrCode', $generatedQrCode);
 
-        Mail::to($customer['email'])->send(new SendInvoices($cart_item, $customer, $this->totalPrice, $order->order_number, $generatedQrCode));
+        Mail::to($customer['email'])->send(new SendInvoices($cart_item, $customer, $this->getTotalPrice(), $order->order_number, $generatedQrCode));
 
         //clear session
         session()->forget('cart');

@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers;
+use App\Models\Category;
 use App\Models\Product;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -21,6 +22,16 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Select::make('category_id')
+                    ->label('Category')
+                    ->options(function () {
+                        return Category::query()
+                            ->select('id', 'name')
+                            ->get()
+                            ->mapWithKeys(fn ($category) => [$category->id => $category->name]);
+                    })
+                    ->required()
+                ->columnSpanFull(),
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->autofocus()
@@ -45,6 +56,10 @@ class ProductResource extends Resource
                     ->rules(['in:active,inactive'])
                     ->default('active')
                     ->columnSpan(2),
+                Forms\Components\FileUpload::make('image')
+                    ->label('Image')
+                    ->rules(['image', 'max:1024', 'mimes:jpeg,png,jpg,gif,svg'])
+                    ->columnSpan(2),
             ]);
     }
 
@@ -64,6 +79,10 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('status')
                     ->sortable()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('category.name')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\ImageColumn::make('image')
             ])
             ->filters([
                 //
