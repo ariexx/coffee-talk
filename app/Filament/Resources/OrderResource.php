@@ -5,9 +5,8 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\RelationManagers;
 use App\Models\Order;
-use App\Models\OrderItem;
 use App\Models\Product;
-use BaconQrCode\Renderer\Path\Close;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -25,7 +24,8 @@ class OrderResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Hidden::make('user_id')
-                    ->default(auth()->user()->id),
+                    ->default(auth()->id())
+                    ->dehydrated(),
                 Forms\Components\TextInput::make('order_number')
                     ->required()
                     ->disabled('true')
@@ -56,14 +56,18 @@ class OrderResource extends Resource
                     ->label('Status')
                     ->rules(['in:pending,confirmed,delivered,cancelled'])
                     ->default('pending')
-                    ->columnSpan(2),
+                    ->columnSpan(2)
+                    ->reactive()
+                    ->afterStateUpdated(function ($state, callable $set) {
+                        $set('user_id', auth()->id());
+                    }),
                 Forms\Components\Repeater::make('orderItems')
                     ->relationship()
                     ->schema([
                         Forms\Components\Select::make('name')
                             ->placeholder('Select a product...')
                             ->reactive()
-                            ->options(Product::all()->pluck('name',  'name'))
+                            ->options(Product::all()->pluck('name', 'name'))
                             ->afterStateUpdated(function ($state, callable $set) {
                                 $product = Product::where('name', $state)->first();
                                 if ($product) {
@@ -132,7 +136,23 @@ class OrderResource extends Resource
                     ->searchable(),
             ])
             ->filters([
-
+                Tables\Filters\SelectFilter::make('status')
+                    ->options([
+                        'pending' => 'Pending',
+                        'confirmed' => 'Confirmed',
+                        'delivered' => 'Delivered',
+                        'cancelled' => 'Cancelled',
+                    ])
+                    ->placeholder('Filter by status...')
+                    ->label('Status'),
+                Tables\Filters\SelectFilter::make('orderItems.name')
+                    ->options(Product::all()->pluck('name', 'name'))
+                    ->placeholder('Filter by product...')
+                    ->label('Product'),
+                Tables\Filters\SelectFilter::make('user_id')
+                    ->options(fn() => User::whereId(auth()->id())->pluck('name', 'id'))
+                    ->placeholder('Filter by user...')
+                    ->label('User'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

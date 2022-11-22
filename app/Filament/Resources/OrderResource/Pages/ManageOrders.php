@@ -9,6 +9,12 @@ use Filament\Resources\Pages\ManageRecords;
 class ManageOrders extends ManageRecords
 {
     protected static string $resource = OrderResource::class;
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+        $data['user_id'] = auth()->id();
+        return $data;
+    }
+
     protected function getActions(): array
     {
         return [
