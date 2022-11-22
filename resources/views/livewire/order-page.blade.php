@@ -2,11 +2,19 @@
     <div class="row">
         @foreach($products as $product)
             <div class="col-lg-4 col-md-6 col-sm-6">
-                <img src="https://source.unsplash.com/random/?Coffee&width=100&height=100/"
-                     class="card-img-top" alt="">
+                @if($product->image)
+                    <img src="{{asset('storage/' . $product->image)}}" alt="{{$product->name}}"
+                         class="card-img-top img-fluid">
+                @else
+                    <img src="https://source.unsplash.com/150x100/?coffee" alt="{{$product->name}}"
+                         class="card-img-top img-fluid">
+                @endif
                 <div class="card card-light ">
                     <div class="card-header">
                         <h4>{{$product['name']}}</h4>
+                        <div class="align-content-between badge badge-info">
+                            {{$product->category->name ?? 'Tidak ada category'}}
+                        </div>
                     </div>
                     <div class="card-body">
                         <span

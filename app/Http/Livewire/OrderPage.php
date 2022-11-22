@@ -38,7 +38,7 @@ class OrderPage extends Component
 
     public function render()
     {
-        $products = Product::all();
+        $products = Product::with('category')->get();
         //sum all quantity from session
         $this->totalQuantity = 0;
         if (session()->has('cart')) {
