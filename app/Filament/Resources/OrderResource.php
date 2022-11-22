@@ -119,9 +119,8 @@ class OrderResource extends Resource
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status')
-                    ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make(uniqid())
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('total_price')
                     ->label('Total Price')
                     ->default(fn($record) => $record->orderItems()->sum('price'))
                     ->sortable()
@@ -133,7 +132,6 @@ class OrderResource extends Resource
                 ,
                 Tables\Columns\TextColumn::make('created_at')
                     ->sortable()
-                    ->searchable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
