@@ -59,6 +59,8 @@ class ProductResource extends Resource
                 Forms\Components\FileUpload::make('image')
                     ->label('Image')
                     ->rules(['image', 'max:1024', 'mimes:jpeg,png,jpg,gif,svg'])
+                    ->disk('public')
+                    ->directory('products')
                     ->columnSpan(2),
             ]);
     }
