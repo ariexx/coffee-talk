@@ -125,6 +125,10 @@ class OrderResource extends Resource
                 Tables\Columns\TagsColumn::make('orderItems.name')
                     ->label('Order Items')
                     ->sortable()
+                    ->searchable()
+                ,
+                Tables\Columns\TextColumn::make('created_at')
+                    ->sortable()
                     ->searchable(),
             ])
             ->filters([

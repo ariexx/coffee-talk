@@ -7,7 +7,7 @@
     <thead>
     <tr>
         <th style="text-align:left;">{{config('app.name')}}</th>
-        <th style="text-align:right;font-weight:400;">{{now()->format('d,M Y')}}</th>
+        <th style="text-align:right;font-weight:400;">{{now()->format('d M Y - H:i')}}</th>
     </tr>
     </thead>
     <tbody>
