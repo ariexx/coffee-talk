@@ -2,7 +2,7 @@
     @if($ads)
         <div class="text-center">
             <img
-                src="{{asset('storage/' . $ads->first()->image)}}" height="60" width="468" alt="iklan" class="img-fluid">
+                src="{{asset('storage/' . $ads->first()->image)}}" height="60" width="468" alt="iklan" class="img-fluid mb-3">
         </div>
     @endif
     <div class="row">
