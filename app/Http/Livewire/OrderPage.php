@@ -74,7 +74,7 @@ class OrderPage extends Component
             'name' => $product->name,
             'product_id' => $product->id,
             'quantity' => 1,
-            'price' => $product->price,
+            'price' => $product->discount_price,
         ]);
 
         //emit session for generate qr code

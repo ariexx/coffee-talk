@@ -19,6 +19,8 @@ class Product extends Model
         'description',
         'image',
         'status',
+        'is_discount',
+        'discount',
     ];
 
     public function orderItems(): HasMany
@@ -29,5 +31,14 @@ class Product extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function getDiscountPriceAttribute()
+    {
+        if($this->is_discount) {
+            return $this->price - ($this->price * $this->discount / 100);
+        }else{
+            return $this->price;
+        }
     }
 }

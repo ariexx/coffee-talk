@@ -1,15 +1,17 @@
 <div>
-    @if($ads)
+    @if($ads->first()->image ?? false)
         <div class="text-center">
             <img
-                src="{{asset('storage/' . $ads->first()->image)}}" height="60" width="468" alt="iklan" class="img-fluid mb-3">
+                src="{{asset('storage/' . $ads->first()->image)}}" height="60" width="468" alt="iklan"
+                class="img-fluid mb-3">
         </div>
     @endif
     <div class="row">
         @foreach($products as $product)
             <div class="col-lg-4 col-md-6 col-sm-6">
-                @if($product->image)
-                    <img src="{{asset('storage/' . $product->image)}}" alt="{{$product->name}}"
+                @if($product->image ?? 'https://source.unsplash.com/150x100/?coffee')
+                    <img src="{{($product->image ? asset('storage/' . $product->image) : asset('assets/img/not-found-photo.png'))}}"
+                         alt="{{$product->name}}"
                          class="card-img-top img-fluid">
                 @else
                     <img src="https://source.unsplash.com/150x100/?coffee" alt="{{$product->name}}"
@@ -23,8 +25,16 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <span
-                            class="text-small text-muted">{{rupiah($product['price'])}}</span>
+                        @if($product->is_discount)
+                            <div class="row">
+                                <div class="col-6">
+                                    <span class="text-danger"><strike>{{rupiah($product->price)}}</strike> <span class="badge badge-danger">{{$product->discount}}%</span></span>
+                                </div>
+                                <div class="col-6">
+                                    <span class="text-success">{{rupiah($product->discount_price)}}</span>
+                                </div>
+                            </div>
+                        @endif
                         <p>{{$product['description']}}</p>
                         <button class="btn btn-success w-100" wire:click.prevent="addToCart({{$product['id']}})"><i
                                 class="fa fa-plus"></i> Tambah ke keranjang

@@ -42,6 +42,13 @@ class ProductResource extends Resource
                     ->required()
                     ->numeric()
                     ->rules( 'numeric'),
+                Forms\Components\TextInput::make('discount')
+                    ->placeholder('Discount percentage')
+                    ->required()
+                    ->rules( 'numeric'),
+                Forms\Components\Toggle::make('is_discount')
+                    ->required()
+                    ->rules( 'boolean'),
                 Forms\Components\Textarea::make('description')
                     ->placeholder('Enter a price...')
                 ->columnSpan(2),
@@ -73,6 +80,18 @@ class ProductResource extends Resource
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('price')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('is_discount')
+                    ->sortable()
+                    ->label('Discount')
+                    ->enum([
+                        '0' => 'No',
+                        '1' => 'Yes',
+                    ])
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('discount')
+                    ->label('Discount percent')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('description')
