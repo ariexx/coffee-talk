@@ -130,6 +130,15 @@ class OrderResource extends Resource
                     ->sortable()
                     ->searchable()
                 ,
+                Tables\Columns\TextColumn::make('is_confirmation')
+                    ->label('Telah dikonfirmasi ?')
+                    ->enum([
+                        '0' => 'Belum',
+                        '1' => 'Sudah',
+                    ])
+                    ->sortable()
+                    ->searchable()
+                ,
                 Tables\Columns\TextColumn::make('created_at')
                     ->sortable()
             ])
