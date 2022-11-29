@@ -9,12 +9,9 @@
     <div class="row">
         @foreach($products as $product)
             <div class="col-lg-4 col-md-6 col-sm-6">
-                @if($product->image ?? 'https://source.unsplash.com/150x100/?coffee')
+                @if($product->image)
                     <img src="{{($product->image ? asset('storage/' . $product->image) : asset('assets/img/not-found-photo.png'))}}"
                          alt="{{$product->name}}"
-                         class="card-img-top img-fluid">
-                @else
-                    <img src="https://source.unsplash.com/150x100/?coffee" alt="{{$product->name}}"
                          class="card-img-top img-fluid">
                 @endif
                 <div class="card card-light ">
