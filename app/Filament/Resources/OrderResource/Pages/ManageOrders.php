@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\OrderResource\Pages;
 
 use App\Filament\Resources\OrderResource;
+use App\Filament\Widgets\OrderOverview;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\ManageRecords;
 
@@ -19,7 +20,7 @@ class ManageOrders extends ManageRecords
     protected function getHeaderWidgets(): array
     {
         return [
-            OrderResource\Widgets\OrderOverview::class,
+           OrderOverview::class
         ];
     }
 

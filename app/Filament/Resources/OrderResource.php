@@ -195,7 +195,6 @@ class OrderResource extends Resource
         ];
     }
 
-    //register widget
     public static function getWidgets(): array
     {
         return [
