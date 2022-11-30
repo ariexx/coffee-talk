@@ -22,11 +22,11 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('vendor/livewire-alert/livewire-alert.js') }}"></script>
 
-    <x-livewire-alert::scripts />
+    <x-livewire-alert::scripts/>
 </head>
 
 <body class="layout-3">
-<x-livewire-alert::flash />
+<x-livewire-alert::flash/>
 <div id="app">
     <div class="main-wrapper container">
         <div class="navbar-bg"></div>
@@ -55,12 +55,10 @@
         <div class="main-content">
             <section class="section">
                 <div class="section-header">
-                    <h1>Menu</h1>
+                    <h1>Konfirmasi Order</h1>
                 </div>
-                    <livewire:order-detail/>
-                <hr/>
                 <div class="section-body">
-                    <livewire:order-page/>
+                    <livewire:confirmation/>
                 </div>
             </section>
         </div>

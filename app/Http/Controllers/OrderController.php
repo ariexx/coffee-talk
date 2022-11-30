@@ -11,7 +11,8 @@ class OrderController extends Controller
         return view('order.index');
 	}
 
-    public function order()
+    public function confirmation()
     {
+        return view('order.confirmation');
     }
 }

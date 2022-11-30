@@ -18,7 +18,11 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Route::get('/order', [\App\Http\Controllers\OrderController::class, 'index'])->name('order');
-Route::post('/order', [\App\Http\Controllers\OrderController::class, 'store']);
+//Route::post('/order', [\App\Http\Controllers\OrderController::class, 'store']);
+
+//confirmation order
+Route::get('/order/confirmation', [\App\Http\Controllers\OrderController::class, 'confirmation'])
+    ->name('confirmation');
 
 Auth::routes();
 

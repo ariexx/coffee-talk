@@ -56,11 +56,17 @@ class OrderResource extends Resource
                     ->label('Status')
                     ->rules(['in:pending,confirmed,delivered,cancelled'])
                     ->default('pending')
-                    ->columnSpan(2)
+                    ->columnSpan(1)
                     ->reactive()
                     ->afterStateUpdated(function ($state, callable $set) {
                         $set('user_id', auth()->id());
                     }),
+                Forms\Components\Select::make('is_confirmation_employee')
+                    ->label('Confirmation Order')
+                    ->options([
+                        '0' => 'No',
+                        '1' => 'Yes',
+                    ])->rules(['bool', 'in:0,1']),
                 Forms\Components\Repeater::make('orderItems')
                     ->relationship()
                     ->schema([
@@ -130,8 +136,17 @@ class OrderResource extends Resource
                     ->sortable()
                     ->searchable()
                 ,
+                Tables\Columns\TextColumn::make('is_confirmation_employee')
+                    ->label('Dikonfirmasi oleh Karyawan')
+                    ->enum([
+                        '0' => 'Belum',
+                        '1' => 'Sudah',
+                    ])
+                    ->sortable()
+                    ->searchable()
+                ,
                 Tables\Columns\TextColumn::make('is_confirmation')
-                    ->label('Telah dikonfirmasi ?')
+                    ->label('Dikonfirmasi oleh Pelanggan')
                     ->enum([
                         '0' => 'Belum',
                         '1' => 'Sudah',
