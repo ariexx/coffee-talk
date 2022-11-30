@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\RelationManagers;
+use App\Filament\Resources\OrderResource\Widgets\OrderOverview;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
@@ -191,6 +192,14 @@ class OrderResource extends Resource
     {
         return [
             'index' => Pages\ManageOrders::route('/'),
+        ];
+    }
+
+    //register widget
+    public static function getWidgets(): array
+    {
+        return [
+            OrderOverview::class,
         ];
     }
 }

@@ -15,6 +15,14 @@ class ManageOrders extends ManageRecords
         return $data;
     }
 
+    //show widget
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            OrderResource\Widgets\OrderOverview::class,
+        ];
+    }
+
     protected function getActions(): array
     {
         return [
