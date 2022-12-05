@@ -1,18 +1,12 @@
 <div>
-    @if($ads->first()->image ?? false)
-        <div class="text-center">
-            <img
-                src="{{asset('storage/' . $ads->first()->image)}}" height="60" width="468" alt="iklan"
-                class="img-fluid mb-3">
-        </div>
-    @endif
     <div class="row">
         @foreach($products as $product)
             <div class="col-lg-4 col-md-6 col-sm-6">
                 @if($product->image)
-                    <img src="{{($product->image ? asset('storage/' . $product->image) : asset('assets/img/not-found-photo.png'))}}"
-                         alt="{{$product->name}}"
-                         class="card-img-top img-fluid">
+                    <img
+                        src="{{($product->image ? asset('storage/' . $product->image) : asset('assets/img/not-found-photo.png'))}}"
+                        alt="{{$product->name}}"
+                        class="card-img-top img-fluid">
                 @endif
                 <div class="card card-light ">
                     <div class="card-header">
@@ -25,7 +19,8 @@
                         @if($product->is_discount)
                             <div class="row">
                                 <div class="col-6">
-                                    <span class="text-danger"><strike>{{rupiah($product->price)}}</strike> <span class="badge badge-danger">{{$product->discount}}%</span></span>
+                                    <span class="text-danger"><strike>{{rupiah($product->price)}}</strike> <span
+                                            class="badge badge-danger">{{$product->discount}}%</span></span>
                                 </div>
                                 <div class="col-6">
                                     <span class="text-success">{{rupiah($product->discount_price)}}</span>
@@ -40,6 +35,7 @@
                 </div>
             </div>
         @endforeach
+        {{$products->links()}}
     </div>
     @if(session()->get('cart'))
         <div class="card">

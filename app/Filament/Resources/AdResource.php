@@ -28,12 +28,51 @@ class AdResource extends Resource
                     ->required()
                     ->rules(['image', 'max:2048', 'mimetypes:image/jpeg,image/png'])
                     ->disk('public')
-                    ->directory('ads')
-                ->maxWidth('468')
-                ->imageResizeTargetHeight(60),
+                    ->directory('ads'),
+                Forms\Components\RichEditor::make('description')
+                    ->nullable()
+                    ->toolbarButtons([
+                        'bold',
+                        'italic',
+                        'underline',
+                        'strike',
+                        'heading',
+                        'h2',
+                        'h3',
+                        'bulletList',
+                        'orderedList',
+                        'table',
+                        'horizontalRule',
+                        'undo',
+                        'redo',
+                    ])
+                    ->disableToolbarButtons([
+                        'attachFiles',
+                        'link',
+                        'image',
+                        'codeBlock',
+                    ])
+                    ->columnSpanFull()
+                    ->placeholder('Enter a description...')
+                    ->label('Description')
+                    ->rules(['nullable', 'string', 'max:65535']),
                 Forms\Components\Toggle::make('active')
                     ->required()
-                    ->default(true),
+                    ->columnSpan(2)
+                    ->rules(['boolean']),
+                Forms\Components\TextInput::make('link')
+                    ->nullable()
+                    ->rule('url'),
+                Forms\Components\Select::make('type')
+                    ->required()
+                    ->options([
+                        'banner' => 'Banner',
+                        'promo' => 'Promo',
+                    ])
+                    ->label('Type')
+                    ->rules(['in:banner,promo'])
+                    ->default('banner')
+                    ->columnSpan(1),
             ]);
     }
 
@@ -51,7 +90,7 @@ class AdResource extends Resource
                     ->dateTime(),
             ])
             ->filters([
-                //
+
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

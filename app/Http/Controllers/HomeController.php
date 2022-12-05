@@ -25,4 +25,12 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+    public function promo($id)
+    {
+        return view('promotion.promo', [
+            'ad' => \App\Models\Ad::findOrFail($id),
+            'anotherAds' => \App\Models\Ad::where('type', 'promo')->where('id', '!=', $id)->get(),
+            ]);
+    }
 }

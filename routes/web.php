@@ -27,3 +27,8 @@ Route::get('/order/confirmation', [\App\Http\Controllers\OrderController::class,
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('promo', function() {
+    return view('promotion.index');
+});
+
+Route::get('promo/{addId}', [\App\Http\Controllers\HomeController::class, 'promo'])->name('promo');

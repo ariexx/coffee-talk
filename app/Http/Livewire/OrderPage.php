@@ -39,9 +39,7 @@ class OrderPage extends Component
 
     public function render()
     {
-        $products = Product::with('category')->get();
-        //get random ad
-        $ads = Ad::whereActive(true)->inRandomOrder()->limit(1)->get();
+        $products = Product::with('category')->paginate(10);
         //sum all quantity from session
         $this->totalQuantity = 0;
         if (session()->has('cart')) {
@@ -61,7 +59,6 @@ class OrderPage extends Component
             'totalPrice' => $this->getTotalPrice(),
             'products' => $products,
             'qrCode' => session()->get('qrCode'),
-            'ads' => $ads
         ]);
     }
 

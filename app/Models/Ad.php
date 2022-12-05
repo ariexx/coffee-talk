@@ -11,6 +11,15 @@ class Ad extends Model
 
     protected $fillable = [
         'name',
-        'image'
+        'image',
+        'active',
+        'link',
+        'description',
+        'type',
     ];
+
+    public function getImageLinkAttribute(): string
+    {
+        return asset('storage/' . $this->image);
+    }
 }

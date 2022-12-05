@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Helpers\GenerateQr;
+use App\Models\Ad;
 use Livewire\Component;
 
 class OrderDetail extends Component
@@ -19,7 +20,11 @@ class OrderDetail extends Component
 
     public function render()
     {
-        return view('livewire.order-detail');
+        $ads = Ad::whereActive(true)->inRandomOrder()->limit(1)->get();
+
+        return view('livewire.order-detail', [
+            'ads' => $ads,
+        ]);
     }
 
     protected $rules = [

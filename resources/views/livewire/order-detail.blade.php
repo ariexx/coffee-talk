@@ -1,4 +1,17 @@
 <div>
+    @if($ads->first()->type == 'promo')
+        <div class="text-center">
+            <a href="{{route('promo', $ads->first()->id)}}" target="_blank"><img
+                src="{{asset('storage/' . $ads->first()->image)}}" alt="iklan"
+                class="img-fluid mb-3"></a>
+        </div>
+    @else
+        <div class="text-center">
+            <a href="{{$ads->first()->link}}" target="_blank"><img
+                src="{{asset('storage/' . $ads->first()->image)}}" alt="iklan"
+                class="img-fluid mb-3"></a>
+        </div>
+    @endif
     <div class="card">
         <div class="card-header">
             <h4>Customer Data</h4>
