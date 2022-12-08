@@ -73,6 +73,13 @@ class AdResource extends Resource
                     ->rules(['in:banner,promo'])
                     ->default('banner')
                     ->columnSpan(1),
+                Forms\Components\Select::make('product_id')
+                    ->nullable()
+                    ->options(function () {
+                        return \App\Models\Product::all()->pluck('name', 'id');
+                    })
+                    ->label('Product')
+                    ->rules(['nullable', 'exists:products,id']),
             ]);
     }
 

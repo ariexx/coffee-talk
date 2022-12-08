@@ -16,6 +16,7 @@ class Ad extends Model
         'link',
         'description',
         'type',
+        'product_id',
     ];
 
     public function getImageLinkAttribute(): string

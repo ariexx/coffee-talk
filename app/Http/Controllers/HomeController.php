@@ -11,10 +11,10 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+//    public function __construct()
+//    {
+//        $this->middleware('auth');
+//    }
 
     /**
      * Show the application dashboard.
@@ -32,5 +32,12 @@ class HomeController extends Controller
             'ad' => \App\Models\Ad::findOrFail($id),
             'anotherAds' => \App\Models\Ad::where('type', 'promo')->where('id', '!=', $id)->get(),
             ]);
+    }
+
+    public function showProduct($id)
+    {
+        return view('product.show', [
+            'product' => \App\Models\Product::findOrFail($id),
+        ]);
     }
 }
