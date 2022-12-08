@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 //Route::get('/', function () {
 //    return \App\Helpers\GenerateQr::create(10000);
 //});
+Route::get('/news', [\App\Http\Controllers\NewsController::class, 'index'])->name('news.index');
+Route::get('/news/{slug}', [\App\Http\Controllers\NewsController::class, 'show'])->name('news.show');
 Route::get('/products/{id}', [\App\Http\Controllers\HomeController::class, 'showProduct'])->name('product.show');
 Route::get('/order', [\App\Http\Controllers\OrderController::class, 'index'])->name('order');
 Route::post('/order/add-to-cart/{productId}', [\App\Http\Controllers\OrderController::class, 'addProductToCart'])->name('order.add-to-cart');

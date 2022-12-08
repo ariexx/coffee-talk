@@ -31,7 +31,7 @@
     <div class="main-wrapper container">
         <div class="navbar-bg"></div>
         <nav class="navbar navbar-expand-lg main-navbar">
-            <a href="#" class="navbar-brand sidebar-gone-hide">Coffee Talk</a>
+            <a href="#" class="navbar-brand sidebar-gone-hide">{{config('app.name')}}</a>
             <a href="#" class="nav-link sidebar-gone-show" data-toggle="sidebar"><i class="fas fa-bars"></i></a>
 
         </nav>
@@ -42,6 +42,11 @@
                     <li class="nav-item dropdown">
                         <a href="{{route('order')}}" class="nav-link"><i
                                 class="fas fa-fire"></i><span>Dashboard</span></a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a href="{{route('news.index')}}" class="nav-link"><i
+                                class="fas fa-newspaper"></i><span>Berita</span></a>
                     </li>
                     <li class="nav-item dropdown">
                         <a href="{{route('confirmation')}}" class="nav-link"><i
