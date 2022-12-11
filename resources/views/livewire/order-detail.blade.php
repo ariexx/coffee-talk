@@ -1,21 +1,23 @@
 <div>
-    @if($ads->first()->type == 'promo' && is_null($ads->first()->product_id))
+    @if($ads?->first()?->type == 'promo' && is_null($ads?->first()?->product_id))
         <div class="text-center">
             <a href="{{route('promo', $ads->first()->id)}}" target="_blank"><img
                 src="{{asset('storage/' . $ads->first()->image)}}" alt="iklan"
                 class="img-fluid mb-3"></a>
         </div>
-    @elseif(!is_null($ads->first()->product_id) && $ads->first()->type == 'promo')
+    @elseif(!is_null($ads?->first()?->product_id) && $ads?->first()?->type == 'promo')
         <div class="text-center">
-            <a href="{{route('product.show', $ads->first()->product_id)}}" target="_blank"><img
-                    src="{{asset('storage/' . $ads->first()->image)}}" alt="iklan"
+            <a href="{{route('product.show', $ads?->first()?->product_id)}}" target="_blank"><img
+                    src="{{asset('storage/' . $ads?->first()?->image)}}" alt="iklan"
                     class="img-fluid mb-3"></a>
         </div>
     @else
         <div class="text-center">
-            <a href="{{$ads->first()->link}}" target="_blank"><img
-                src="{{asset('storage/' . $ads->first()->image)}}" alt="iklan"
+            @if($ads->first())
+            <a href="{{$ads?->first()?->link}}" target="_blank"><img
+                src="{{asset('storage/' . $ads?->first()?->image)}}" alt="iklan"
                 class="img-fluid mb-3"></a>
+            @endif
         </div>
     @endif
     <div class="card">

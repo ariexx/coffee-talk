@@ -64,7 +64,7 @@
                                 <h5>{{$new->title}}</h5>
 
                                 <p>
-                                    {{$new->content}}
+                                    {{Str::limit($new->content, 100)}}
                                 </p>
                             </a>
                             <a href="{{route('news.show', $new->slug)}}" class="btn btn-dark mb-3">Read more</a>

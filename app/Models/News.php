@@ -32,10 +32,4 @@ class News extends Model
     {
         $this->attributes['title'] = ucfirst($value);
     }
-
-    //limit content to 100 characters
-    public function getContentAttribute($value): string
-    {
-        return substr($value, 0, 100);
-    }
 }

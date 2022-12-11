@@ -8,9 +8,7 @@
                     @if($news->image ?? false)
                         <img class="card-img-top mb-3" src="{{asset('storage/' . $news->image)}}" alt="Card image cap">
                     @endif
-                    <p>
-                        {{$news->content }}
-                    </p>
+                    <p>{!! $news->content !!}</p>
                 </div>
             </div>
         </div>
